@@ -1,0 +1,65 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        {% for quote in quotes %}
+        <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+            <span class="text" itemprop="text">
+                {{ quote.quote }}
+            </span>
+            <span>
+                by <small class="author" itemprop="author">
+                    <a href="{% url 'quotes:author_list' author_id=quote.author.id %}">{{ quote.author.fullname }}</a>
+                    <a href="{% url 'quotes:author_list' author_id=quote.author.id %}">(about)</a>
+                </small>
+            </span>
+
+            <div class="tags">
+                Tags:
+                {% for tag in quote.tags.all %}
+                <a href="{% url 'quotes:quotes_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+                            <!--    Top Ten tags:     -->
+        <div class="tags">
+                Top Ten tags:
+                {% for tag in top_tags %}
+                <a href="{% url 'quotes:quotes_by_tag' tag_name=tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+        <nav>
+            <ul class="pager">
+                <li class="previous">
+                    {% if quotes.has_previous %}
+                    <a href="{% url 'quotes:root_paginate' quotes.previous_page_number %}">
+                        <span aria-hidden="true">←</span> Previous
+                    </a>
+                    {% else %}
+                    <a class="disabled" href="#">Previous</a>
+                    {% endif %}
+                </li>
+
+                <!-- Page numbers -->
+                {% for i in quotes.paginator.page_range %}
+                <li class="{% if i == quotes.number %}active{% endif %}">
+                    <a href="{% url 'quotes:root_paginate' i %}">{{ i }}</a>
+                </li>
+                {% endfor %}
+
+                <li class="next">
+                    {% if quotes.has_next %}
+                    <a href="{% url 'quotes:root_paginate' quotes.next_page_number %}">
+                        <span aria-hidden="true">→</span> Next
+                    </a>
+                    {% else %}
+                    <a class="disabled" href="#">Next</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+<!-- users/users.html -->
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="author">
+            <h2>{{ author.fullname }}</h2>
+            <p>Born: {{ author.born_date }} in {{ author.born_location }}</p>
+            <p>Description: {{ author.description }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

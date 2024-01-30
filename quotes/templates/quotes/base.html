@@ -1,0 +1,65 @@
+<!-- quotes/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Include Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quotes/style.css' %}">
+
+    <title>Homework</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row header-box pt-3 md-3">
+        <div class="col-md-8">
+            <h1>
+                <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+            </h1>
+        </div>
+        <div class="col-md-4">
+            <div class="sidebar">
+                <!-- ... (інші елементи бокової панелі) ... -->
+
+                <h3>Navigation</h3>
+                <ul>
+<!--                    <li><a href="{% url 'quotes:root' %}">All Quotes</a></li>-->
+                    <li><a href="{% url 'quotes:top_tags' %}">Top Ten tags</a></li>
+                </ul>
+            </div>
+
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                Welcome, {{ user.username }}!
+                <button type="submit" class="btn btn-primary">Logout</button>
+            </form>
+
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'quotes:add_author' %}" class="btn btn-primary">Add Author</a>
+            <a href="{% url 'quotes:add_quote' %}" class="btn btn-primary">Add Quote</a>
+            {% endif %}
+            {% else %}
+            <p>
+                <a href="{% url 'users:register' %}" class="btn btn-primary">SignUp</a>
+                <a href="{% url 'users:login' %}" class="btn btn-primary">Login</a>
+                <a href="/" class="btn btn-primary">Home</a>
+            </p>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% block content %} {% endblock %}
+
+</div>
+</body>
+</html>

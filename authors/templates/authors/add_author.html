@@ -1,0 +1,28 @@
+{% extends "quotes/base.html" %}
+
+{% block content %}
+
+  <h1>Add Author</h1>
+
+  <form method="post" action="{% url 'quotes:add_author' %}">
+      {% csrf_token %}
+      {{ author_form.as_p }}
+      <button type="submit" class="btn btn-primary">Add Author</button>
+  </form>
+
+  <div class="row">
+      {% for quote in quotes %}
+          <div class="col-md-4">
+              <div class="card" style="width: 18rem;">
+                  
+                  <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">{{ quote.quote }}</p>
+                      
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
+
+{% endblock %}
